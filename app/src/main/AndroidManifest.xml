@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CharacterDevelopmentTracker">
         <activity
+            android:name=".ViewCharacterActivity"
+            android:exported="false" />
+        <activity
             android:name=".ViewGraphActivity"
             android:exported="false"
             android:label="@string/title_activity_view_graph"
