@@ -14,7 +14,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.example.characterdevelopmenttracker.databinding.ActivityAddCharacter2Binding;
+import com.example.characterdevelopmenttracker.databinding.ActivityAddCharacterBinding;
 
 public class ViewStoryActivity extends AppCompatActivity {
 

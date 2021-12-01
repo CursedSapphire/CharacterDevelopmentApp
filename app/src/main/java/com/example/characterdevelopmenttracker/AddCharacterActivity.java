@@ -2,6 +2,7 @@ package com.example.characterdevelopmenttracker;
 
 import android.os.Bundle;
 
+import com.example.characterdevelopmenttracker.databinding.ActivityAddCharacterBinding;
 import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,31 +14,20 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-import com.example.characterdevelopmenttracker.databinding.ActivityAddCharacter2Binding;
+import com.example.characterdevelopmenttracker.databinding.ActivityAddCharacterBinding;
 
 public class AddCharacterActivity extends AppCompatActivity {
 
     private AppBarConfiguration appBarConfiguration;
-    private ActivityAddCharacter2Binding binding;
+    private ActivityAddCharacterBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        binding = ActivityAddCharacter2Binding.inflate(getLayoutInflater());
+        binding = ActivityAddCharacterBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_add_character);
-        appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
-        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
-
     }
 
-    @Override
-    public boolean onSupportNavigateUp() {
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_add_character);
-        return NavigationUI.navigateUp(navController, appBarConfiguration)
-                || super.onSupportNavigateUp();
-    }
 }

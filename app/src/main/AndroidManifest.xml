@@ -10,6 +10,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CharacterDevelopmentTracker">
         <activity
+            android:name=".ViewGraphActivity"
+            android:exported="false"
+            android:label="@string/title_activity_view_graph"
+            android:theme="@style/Theme.CharacterDevelopmentTracker.NoActionBar" />
+        <activity
             android:name=".AddCharacterActivity"
             android:exported="false"
             android:label="@string/title_activity_add_character"

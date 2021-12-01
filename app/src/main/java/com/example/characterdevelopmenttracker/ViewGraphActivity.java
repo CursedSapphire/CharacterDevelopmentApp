@@ -13,19 +13,25 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-import com.example.characterdevelopmenttracker.databinding.ActivityAddEventBinding;
+import com.example.characterdevelopmenttracker.databinding.ActivityViewGraphBinding;
+import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.series.DataPoint;
+import com.jjoe64.graphview.series.LineGraphSeries;
 
-public class AddEventActivity extends AppCompatActivity {
+public class ViewGraphActivity extends AppCompatActivity {
 
     private AppBarConfiguration appBarConfiguration;
-    private ActivityAddEventBinding binding;
+    private ActivityViewGraphBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        binding = ActivityAddEventBinding.inflate(getLayoutInflater());
+        binding = ActivityViewGraphBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        GraphView graphView=(GraphView) findViewById(R.id.graph);
+        LineGraphSeries<DataPoint> series1 = new LineGraphSeries<>();
 
     }
 

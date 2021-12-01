@@ -11,4 +11,5 @@
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="title_activity_view_event">ViewEventActivity</string>
     <string name="title_activity_add_character">AddCharacterActivity</string>
+    <string name="title_activity_view_graph">ViewGraphActivity</string>
 </resources>
