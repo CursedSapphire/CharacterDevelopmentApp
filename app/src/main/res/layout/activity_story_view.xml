@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:foregroundTint="#FFFFFF">
+    android:foregroundTint="#FFFFFF"
+    android:label="View Story">
 
     <Button
         android:id="@+id/add_character_button"
@@ -33,7 +34,7 @@
         android:layout_marginStart="36dp"
         android:layout_marginTop="56dp"
         android:text="Title"
-        android:textSize="48sp"
+        android:textSize="24dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -44,7 +45,7 @@
         android:layout_marginStart="36dp"
         android:layout_marginTop="32dp"
         android:text="Characters:"
-        android:textSize="24sp"
+        android:textSize="12dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view_event_button" />
 

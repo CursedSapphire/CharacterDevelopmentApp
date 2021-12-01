@@ -10,9 +10,24 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CharacterDevelopmentTracker">
         <activity
+            android:name=".AddCharacterActivity"
+            android:exported="false"
+            android:label="@string/title_activity_add_character"
+            android:theme="@style/Theme.CharacterDevelopmentTracker.NoActionBar" />
+        <activity
+            android:name=".ViewEventActivity"
+            android:exported="false"
+            android:label="@string/title_activity_view_event"
+            android:theme="@style/Theme.CharacterDevelopmentTracker.NoActionBar" />
+        <activity
+            android:name=".AddEventActivity"
+            android:exported="false"
+            android:label="@string/title_activity_add_event"
+            android:theme="@style/Theme.CharacterDevelopmentTracker.NoActionBar" />
+        <activity
             android:name=".ViewStoryActivity"
             android:exported="true"
-            android:label="View Story"/>
+            android:label="View Story" />
         <activity
             android:name=".AddStoryActivity"
             android:exported="true"

@@ -1,13 +1,20 @@
 package com.example.characterdevelopmenttracker;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
+import com.example.characterdevelopmenttracker.databinding.ActivityAddCharacter2Binding;
 
 public class ViewStoryActivity extends AppCompatActivity {
 
@@ -39,21 +46,24 @@ public class ViewStoryActivity extends AppCompatActivity {
         add_event_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(ViewStoryActivity.this, AddEventActivity.class);
+                startActivity(intent);
             }
         });
 
         add_character_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(ViewStoryActivity.this, AddCharacterActivity.class);
+                startActivity(intent);
             }
         });
 
         view_events_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(ViewStoryActivity.this, ViewEventActivity.class);
+                startActivity(intent);
             }
         });
     }
@@ -70,5 +80,20 @@ public class ViewStoryActivity extends AppCompatActivity {
         return cursor;
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.delete_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId() == R.id.delete_button){
+            myDB.removeStory(Integer.parseInt(storyId));
+            Intent intent = new Intent(ViewStoryActivity.this, MainActivity.class);
+            startActivity(intent);
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }
