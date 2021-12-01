@@ -9,6 +9,8 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
+import java.util.ArrayList;
+
 public class MyDatabaseHelper extends SQLiteOpenHelper {
 
     private Context context;
@@ -135,8 +137,84 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         Cursor cursor = null;
         if(db != null){
             cursor = db.rawQuery(query, null);
-
         }
         return cursor;
+    }
+
+    public Cursor readCharacterData(){
+        String query = "SELECT * FROM " + TABLE_CHARACTERS;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = null;
+        if(db != null){
+            cursor = db.rawQuery(query, null);
+        }
+        return cursor;
+    }
+
+    public Story getStory(String id){
+        Story story = new Story();
+        SQLiteDatabase myDB = this.getReadableDatabase();
+        String selectQuery = "SELECT * FROM " + TABLE_STORIES + " WHERE "
+                + KEY_ID + " = " + id;
+        Cursor c = myDB.rawQuery(selectQuery, null);
+        System.out.println(selectQuery);
+        if (c != null && c.moveToFirst()) {
+            c.moveToFirst();
+            int story_id = c.getInt(c.getColumnIndexOrThrow(KEY_ID));
+            String story_title = c.getString(c.getColumnIndexOrThrow(KEY_TITLE));
+            story = new Story(story_title, story_id);
+            story.setCharacters(getStoryCharacters(id));
+            story.setEvents(getStoryEvents(id));
+        }
+
+        return story;
+    }
+
+    public ArrayList<Character> getStoryCharacters(String id){
+        ArrayList<Character> characters = new ArrayList<>();
+        int char_id;
+        String name;
+        Character character;
+
+        SQLiteDatabase myDB = this.getReadableDatabase();
+        String selectQuery = "SELECT  * FROM " + TABLE_CHARACTERS + " WHERE "
+                + KEY_STORY_ID + " = " + id;
+        Cursor c = myDB.rawQuery(selectQuery, null);
+
+        if(c.moveToFirst()){
+         do{
+             name = c.getString(c.getColumnIndexOrThrow(KEY_NAME));
+             char_id = c.getInt(c.getColumnIndexOrThrow(KEY_ID));
+             character = new Character(name, Integer.parseInt(id), char_id);
+             characters.add(character);
+         }while (c.moveToNext());
+        }
+
+        return characters;
+    }
+
+    public ArrayList<Event> getStoryEvents(String id){
+        ArrayList<Event> events = new ArrayList<>();
+        int event_id;
+        int event_posn;
+        String name;
+        Event event;
+
+        SQLiteDatabase myDB = this.getReadableDatabase();
+        String selectQuery = "SELECT  * FROM " + TABLE_EVENTS + " WHERE "
+                + KEY_STORY_ID + " = " + id;
+        Cursor c = myDB.rawQuery(selectQuery, null);
+
+        if(c.moveToFirst()){
+            do{
+                name = c.getString(c.getColumnIndexOrThrow(KEY_NAME));
+                event_id = c.getInt(c.getColumnIndexOrThrow(KEY_ID));
+                event_posn = c.getInt(c.getColumnIndexOrThrow(KEY_EVENT_POSITION));
+                event = new Event(name, Integer.parseInt(id), event_id, event_posn);
+                events.add(event);
+            }while (c.moveToNext());
+        }
+
+        return events;
     }
 }

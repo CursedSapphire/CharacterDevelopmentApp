@@ -3,8 +3,8 @@ package com.example.characterdevelopmenttracker;
 import java.util.ArrayList;
 
 public class Story {
-    private ArrayList<String> characters;
-    private ArrayList<String> events;
+    private ArrayList<Character> characters;
+    private ArrayList<Event> events;
     private String title;
     private int id;
 
@@ -15,11 +15,13 @@ public class Story {
         this.id = id;
     }
 
-    public ArrayList<String> getCharacters() {
+    public Story(){}
+
+    public ArrayList<Character> getCharacters() {
         return characters;
     }
 
-    public ArrayList<String> getEvents() {
+    public ArrayList<Event> getEvents() {
         return events;
     }
 
@@ -39,11 +41,15 @@ public class Story {
         this.title = title;
     }
 
-    public void addCharacter(String character){
+    public void addCharacter(Character character){
         characters.add(character);
     }
 
-    public void addEvent(String event){
-        characters.add(event);
+    public void setCharacters(ArrayList<Character> characters){this.characters = characters;}
+
+    public void addEvent(Event event){
+        events.add(event);
     }
+
+    public void setEvents(ArrayList<Event> events){this.events = events;}
 }

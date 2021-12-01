@@ -3,6 +3,11 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Kiera/StudioProjects/CharacterDevelopmentApp/app/src/main/res/layout/activity_add_story.xml" value="0.25" />
+        <entry key="..\:/Users/Kiera/StudioProjects/CharacterDevelopmentApp/app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="..\:/Users/Kiera/StudioProjects/CharacterDevelopmentApp/app/src/main/res/layout/activity_story_view.xml" value="0.2" />
+        <entry key="..\:/Users/Kiera/StudioProjects/CharacterDevelopmentApp/app/src/main/res/layout/activity_view_story.xml" value="0.25" />
+        <entry key="..\:/Users/Kiera/StudioProjects/CharacterDevelopmentApp/app/src/main/res/layout/my_row.xml" value="0.25" />
         <entry key="..\:/Users/Owner/AndroidStudioProjects/CharacterDevelopmentTracker/app/src/main/res/layout/activity_add_story.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Owner/AndroidStudioProjects/CharacterDevelopmentTracker/app/src/main/res/layout/activity_main.xml" value="0.2803442028985507" />
         <entry key="..\:/Users/Owner/AndroidStudioProjects/CharacterDevelopmentTracker/app/src/main/res/layout/activity_story_view.xml" value="0.25" />

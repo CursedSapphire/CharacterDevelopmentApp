@@ -64,6 +64,8 @@ public class MainActivity extends AppCompatActivity {
     public void viewStory(int storyID)
     {
         Intent intent = new Intent(MainActivity.this, ViewStoryActivity.class);
+        intent.putExtra("id", storyID);
         startActivity(intent);
     }
+
 }
