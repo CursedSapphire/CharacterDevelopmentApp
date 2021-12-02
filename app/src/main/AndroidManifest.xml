@@ -10,6 +10,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CharacterDevelopmentTracker">
         <activity
+            android:name=".AddStatRecord"
+            android:exported="false" />
+        <activity
+            android:name=".CreateCharacterActivity"
+            android:exported="false" />
+        <activity
             android:name=".ViewCharacterActivity"
             android:exported="false" />
         <activity

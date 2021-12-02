@@ -1,5 +1,7 @@
 package com.example.characterdevelopmenttracker;
 
+import androidx.annotation.NonNull;
+
 import java.util.ArrayList;
 
 public class Character {
@@ -17,6 +19,8 @@ public class Character {
         this.stats = new String[5];
     }
 
+    public Character(){}
+
     public void setStats(String s1, String s2, String s3, String s4, String s5){
         stats[0] = s1;
         stats[1] = s2;
@@ -25,5 +29,15 @@ public class Character {
         stats[4] = s5;
     }
 
+    public int getId(){return this.id;}
 
+    public String getName(){return this.name;}
+
+    @NonNull
+    @Override
+    public String toString() {
+        String string = name + " " + stats[0] + " " + stats[1] + " " + stats[2] + " " + stats[3] +
+                " " + stats[4];
+        return string;
+    }
 }

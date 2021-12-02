@@ -2,6 +2,7 @@ package com.example.characterdevelopmenttracker;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
@@ -14,7 +15,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.example.characterdevelopmenttracker.databinding.ActivityAddCharacterBinding;
+import com.example.characterdevelopmenttracker.databinding.ActivityStoryViewBinding;
+
+import java.util.ArrayList;
 
 public class ViewStoryActivity extends AppCompatActivity {
 
@@ -40,6 +43,19 @@ public class ViewStoryActivity extends AppCompatActivity {
 
         myDB = new MyDatabaseHelper(ViewStoryActivity.this);
         story = myDB.getStory(storyId);
+        ArrayList<Event> events = myDB.getStoryEvents(storyId);
+        ArrayList<Character> characters = myDB.getStoryCharacters(storyId);
+        System.out.println("Length of Events: " + events.size());
+        System.out.println("Length of Characters: " +characters.size());
+        ArrayList<String> characterNames = new ArrayList<>();
+        for(int i = 0; i < characters.size(); i++)
+        {
+            characterNames.add(characters.get(i).getName());
+        }
+
+        customAdaptor = new CustomAdaptorCharacters(ViewStoryActivity.this, characterNames);
+        recyclerView.setAdapter(customAdaptor);
+        recyclerView.setLayoutManager(new LinearLayoutManager(ViewStoryActivity.this));
 
         title.setText(story.getTitle());
 
@@ -55,6 +71,7 @@ public class ViewStoryActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ViewStoryActivity.this, AddCharacterActivity.class);
+                intent.putExtra("id", Integer.parseInt(storyId));
                 startActivity(intent);
             }
         });
@@ -79,6 +96,7 @@ public class ViewStoryActivity extends AppCompatActivity {
         Cursor cursor = myDB.readCharacterData();
         return cursor;
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu){

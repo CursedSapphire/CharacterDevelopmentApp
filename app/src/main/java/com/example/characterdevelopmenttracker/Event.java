@@ -23,4 +23,6 @@ public class Event {
         int[] returnStats = new int[5];
         return returnStats;
     }
+
+    public int getId(){return this.id;}
 }

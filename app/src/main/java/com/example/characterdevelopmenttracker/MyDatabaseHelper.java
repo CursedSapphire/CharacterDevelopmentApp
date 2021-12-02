@@ -79,7 +79,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         String characterQuery =
                 "CREATE TABLE "  + TABLE_CHARACTERS + " (" + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT , " +
                         KEY_NAME + " TEXT, " + KEY_STORY_ID + " INTEGER, " +
-                        KEY_LINKED_EVENTS_ID + " INTEGER, " + KEY_STAT1 + " TEXT, " +
+                        KEY_STAT1 + " TEXT, " +
                         KEY_STAT2 + " TEXT, " + KEY_STAT3 + " TEXT, " +KEY_STAT4 + " TEXT, "
                         + KEY_STAT5 + " TEXT )";
 
@@ -122,13 +122,19 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         {
             Toast.makeText(context, "Failed to add story.", Toast.LENGTH_SHORT);
         }
-
+        addEvent(0, "Beginning", (int) result);
     }
 
     public void removeStory(int id){
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_STORIES, KEY_ID + " = ?",
                 new String[] { String.valueOf(id) });
+    }
+
+    public void removeCharacter(int id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_CHARACTERS, KEY_ID + " = ?",
+                new String[] { String.valueOf(id)});
     }
 
     public Cursor readStoryData(){
@@ -175,6 +181,11 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         int char_id;
         String name;
         Character character;
+        String stat1;
+        String stat2;
+        String stat3;
+        String stat4;
+        String stat5;
 
         SQLiteDatabase myDB = this.getReadableDatabase();
         String selectQuery = "SELECT  * FROM " + TABLE_CHARACTERS + " WHERE "
@@ -185,7 +196,13 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
          do{
              name = c.getString(c.getColumnIndexOrThrow(KEY_NAME));
              char_id = c.getInt(c.getColumnIndexOrThrow(KEY_ID));
+             stat1 = c.getString(c.getColumnIndexOrThrow(KEY_STAT1));
+             stat2 = c.getString(c.getColumnIndexOrThrow(KEY_STAT2));
+             stat3 = c.getString(c.getColumnIndexOrThrow(KEY_STAT3));
+             stat4 = c.getString(c.getColumnIndexOrThrow(KEY_STAT4));
+             stat5 = c.getString(c.getColumnIndexOrThrow(KEY_STAT5));
              character = new Character(name, Integer.parseInt(id), char_id);
+             character.setStats(stat1, stat2, stat3, stat4, stat5);
              characters.add(character);
          }while (c.moveToNext());
         }
@@ -210,11 +227,99 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
                 name = c.getString(c.getColumnIndexOrThrow(KEY_NAME));
                 event_id = c.getInt(c.getColumnIndexOrThrow(KEY_ID));
                 event_posn = c.getInt(c.getColumnIndexOrThrow(KEY_EVENT_POSITION));
-                event = new Event(name, Integer.parseInt(id), event_id, event_posn);
+                event = new Event(name, event_id, Integer.parseInt(id), event_posn);
                 events.add(event);
+                System.out.println("In getStoryEvents: ______________________" + name + " " + event_id + " " + id);
             }while (c.moveToNext());
         }
 
         return events;
+    }
+
+    public void addCharacter(String name, String stat1, String stat2, String stat3, String stat4,
+                             String stat5, int stat1val, int stat2val, int stat3val, int stat4val,
+                             int stat5val, String storyId){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put(KEY_NAME, name);
+        cv.put(KEY_STAT1, stat1);
+        cv.put(KEY_STAT2, stat2);
+        cv.put(KEY_STAT3, stat3);
+        cv.put(KEY_STAT4, stat4);
+        cv.put(KEY_STAT5, stat5);
+        cv.put(KEY_STORY_ID, storyId);
+
+        long result = db.insert(TABLE_CHARACTERS, null, cv);
+        if(result == -1)
+        {
+            Toast.makeText(context, "Failed to add character.", Toast.LENGTH_SHORT);
+        }
+        Story story = getStory(storyId);
+        ArrayList<Character> characters = getStoryCharacters(storyId);
+        int eventID = 0;
+        int characterID = characters.get(characters.size() - 1).getId();
+        if(getStoryEvents(storyId).size() > 0) {
+            eventID = getStoryEvents(storyId).get(0).getId();
+        }
+
+        addStatRecord(Integer.toString(characterID), Integer.toString(eventID), stat1val, stat2val,
+                stat3val, stat4val, stat5val);
+    }
+
+    public Character getCharacter(String charID){
+        Character character= new Character();
+        SQLiteDatabase myDB = this.getReadableDatabase();
+        String selectQuery = "SELECT * FROM " + TABLE_CHARACTERS + " WHERE "
+                + KEY_ID + " = " + charID;
+        Cursor c = myDB.rawQuery(selectQuery, null);
+
+        if (c != null && c.moveToFirst()) {
+            c.moveToFirst();
+            int character_id = c.getInt(c.getColumnIndexOrThrow(KEY_ID));
+            String character_name = c.getString(c.getColumnIndexOrThrow(KEY_NAME));
+            int story_id = c.getInt((c.getColumnIndexOrThrow(KEY_STORY_ID)));
+            String stat1 = c.getString(c.getColumnIndexOrThrow(KEY_STAT1));
+            String stat2 = c.getString(c.getColumnIndexOrThrow(KEY_STAT2));
+            String stat3 = c.getString(c.getColumnIndexOrThrow(KEY_STAT3));
+            String stat4 = c.getString(c.getColumnIndexOrThrow(KEY_STAT4));
+            String stat5 = c.getString(c.getColumnIndexOrThrow(KEY_STAT5));
+            character = new Character(character_name, story_id, character_id);
+            character.setStats(stat1, stat2, stat3, stat4, stat5);
+        }
+
+        return character;
+    }
+
+    public void addStatRecord(String charID, String eventID, int stat1val, int stat2val,
+                              int stat3val, int stat4val, int stat5val){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put(KEY_CHAR_ID, charID);
+        cv.put(KEY_EVENT_ID, eventID);
+        cv.put(KEY_STAT1_VAL, stat1val);
+        cv.put(KEY_STAT2_VAL, stat2val);
+        cv.put(KEY_STAT3_VAL, stat3val);
+        cv.put(KEY_STAT4_VAL, stat4val);
+        cv.put(KEY_STAT5_VAL, stat5val);
+
+        long result = db.insert(TABLE_LINKED_EVENTS, null, cv);
+        if(result == -1)
+        {
+            Toast.makeText(context, "Failed to add story.", Toast.LENGTH_SHORT);
+        }
+    }
+
+    public void addEvent(int posn, String name, int storyID){
+        SQLiteDatabase db = this.getReadableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put(KEY_EVENT_POSITION, posn);
+        cv.put(KEY_NAME, name);
+        cv.put(KEY_STORY_ID, storyID);
+
+        long result = db.insert(TABLE_EVENTS, null, cv);
+        if(result == -1){
+            Toast.makeText(context, "Failed to add character", Toast.LENGTH_SHORT);
+        }
+
     }
 }
