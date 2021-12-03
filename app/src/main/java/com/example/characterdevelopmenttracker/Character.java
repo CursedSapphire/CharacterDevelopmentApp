@@ -33,6 +33,8 @@ public class Character {
 
     public String getName(){return this.name;}
 
+    public int getStoryId(){return this.storyId;}
+
     @NonNull
     @Override
     public String toString() {

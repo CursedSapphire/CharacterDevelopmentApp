@@ -48,12 +48,15 @@ public class ViewStoryActivity extends AppCompatActivity {
         System.out.println("Length of Events: " + events.size());
         System.out.println("Length of Characters: " +characters.size());
         ArrayList<String> characterNames = new ArrayList<>();
+        ArrayList<String> characterIds = new ArrayList<>();
         for(int i = 0; i < characters.size(); i++)
         {
             characterNames.add(characters.get(i).getName());
+            characterIds.add(Integer.toString(characters.get(i).getId()));
         }
 
-        customAdaptor = new CustomAdaptorCharacters(ViewStoryActivity.this, characterNames);
+        customAdaptor = new CustomAdaptorCharacters(ViewStoryActivity.this, characterNames,
+                characterIds, ViewStoryActivity.this);
         recyclerView.setAdapter(customAdaptor);
         recyclerView.setLayoutManager(new LinearLayoutManager(ViewStoryActivity.this));
 
@@ -90,6 +93,12 @@ public class ViewStoryActivity extends AppCompatActivity {
             int id = getIntent().getIntExtra("id", 0);
             storyId = Integer.toString(id);
         }
+    }
+
+    public void viewCharacter(int id){
+        Intent intent = new Intent(ViewStoryActivity.this, ViewCharacterActivity.class);
+        intent.putExtra("id", id);
+        startActivity(intent);
     }
 
     public Cursor readCharacters(){

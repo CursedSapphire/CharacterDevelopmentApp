@@ -223,10 +223,11 @@
 
     <Spinner
         android:id="@+id/event_spinner"
-        android:layout_width="207dp"
-        android:layout_height="30dp"
+        android:layout_width="208dp"
+        android:layout_height="48dp"
         android:layout_marginStart="36dp"
         app:layout_constraintBottom_toBottomOf="@+id/event_label"
-        app:layout_constraintStart_toEndOf="@+id/event_label" />
+        app:layout_constraintStart_toEndOf="@+id/event_label"
+        app:layout_constraintTop_toTopOf="@+id/event_label" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

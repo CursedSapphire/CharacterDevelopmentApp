@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -15,11 +16,14 @@ public class CustomAdaptorCharacters extends RecyclerView.Adapter<CustomAdaptorC
 
     private Context context;
     private ArrayList<String> character_ids, character_names;
-    private MainActivity mainActivity;
+    private ViewStoryActivity viewStoryActivity;
 
-    public CustomAdaptorCharacters(Context context, ArrayList<String> character_names){
+    public CustomAdaptorCharacters(Context context, ArrayList<String> character_names,
+                                   ArrayList<String> character_ids, ViewStoryActivity viewStoryActivity){
         this.context = context;
+        this.viewStoryActivity = viewStoryActivity;
         this.character_names = character_names;
+        this.character_ids = character_ids;
     }
 
     @NonNull
@@ -44,15 +48,21 @@ public class CustomAdaptorCharacters extends RecyclerView.Adapter<CustomAdaptorC
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         TextView character_name;
+        ConstraintLayout mainLayout;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             this.character_name = itemView.findViewById(R.id.character_name_list_view);
+            mainLayout = itemView.findViewById(R.id.characterRowLayout);
+            itemView.setClickable(true);
+            itemView.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
-
+            int posn = getAdapterPosition();
+            int id = Integer.parseInt(character_ids.get(posn));
+            viewStoryActivity.viewCharacter(id);
         }
     }
 }

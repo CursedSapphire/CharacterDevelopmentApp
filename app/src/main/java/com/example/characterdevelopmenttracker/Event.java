@@ -24,5 +24,11 @@ public class Event {
         return returnStats;
     }
 
+    public String getName(){return this.name;}
+
+    public int getPosition() {
+        return position;
+    }
+
     public int getId(){return this.id;}
 }

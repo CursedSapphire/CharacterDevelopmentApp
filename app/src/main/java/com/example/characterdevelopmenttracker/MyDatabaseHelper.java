@@ -122,7 +122,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         {
             Toast.makeText(context, "Failed to add story.", Toast.LENGTH_SHORT);
         }
-        addEvent(0, "Beginning", (int) result);
+        addEvent("Beginning", (int) result);
     }
 
     public void removeStory(int id){
@@ -309,9 +309,14 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    public void addEvent(int posn, String name, int storyID){
+    public void addEvent(String name, int storyID){
         SQLiteDatabase db = this.getReadableDatabase();
         ContentValues cv = new ContentValues();
+        int posn = 0;
+        if(getStoryEvents(Integer.toString(storyID)).isEmpty())
+            posn = getMostRecentStoryEvent(Integer.toString(storyID)).getPosition();
+        if(posn == 0)
+            name = "Beginning";
         cv.put(KEY_EVENT_POSITION, posn);
         cv.put(KEY_NAME, name);
         cv.put(KEY_STORY_ID, storyID);
@@ -322,4 +327,46 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         }
 
     }
+
+    public Event getMostRecentStoryEvent(String storyID){
+        ArrayList<Event> events = getStoryEvents(storyID);
+        Event mostRecentEvent = events.get(0);
+        for(int i = 1; i < events.size(); i++)
+        {
+            if(events.get(i).getPosition() < mostRecentEvent.getPosition())
+                mostRecentEvent = events.get(i);
+        }
+        return mostRecentEvent;
+    }
+
+
+    public ArrayList<StatRecord> getCharacterStatRecords(String charId){
+        ArrayList<StatRecord> records = new ArrayList<>();
+        int event_id;
+        int[] stats = new int[5];
+
+        SQLiteDatabase myDB = this.getReadableDatabase();
+        String selectQuery = "SELECT  * FROM " + TABLE_LINKED_EVENTS + " WHERE "
+                + KEY_CHAR_ID + " = " + charId;
+        Cursor c = myDB.rawQuery(selectQuery, null);
+
+        if(c.moveToFirst()){
+            do{
+                event_id = c.getInt(c.getColumnIndexOrThrow(KEY_ID));
+                stats[0] = c.getInt(c.getColumnIndexOrThrow(KEY_STAT1_VAL));
+                stats[1] = c.getInt(c.getColumnIndexOrThrow(KEY_STAT2_VAL));
+                stats[2] = c.getInt(c.getColumnIndexOrThrow(KEY_STAT3_VAL));
+                stats[3] = c.getInt(c.getColumnIndexOrThrow(KEY_STAT4_VAL));
+                stats[4] = c.getInt(c.getColumnIndexOrThrow(KEY_STAT5_VAL));
+                StatRecord record = new StatRecord(Integer.parseInt(charId), event_id, stats[0],
+                        stats[1], stats[2], stats[3], stats[4]);
+                records.add(record);
+                System.out.println("In getStatRecords: ______________________" + charId + " "
+                        + event_id + " " + stats[0]);
+            }while (c.moveToNext());
+        }
+
+        return records;
+    }
+
 }
