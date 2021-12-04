@@ -21,23 +21,19 @@
         <activity
             android:name=".ViewGraphActivity"
             android:exported="false"
-            android:label="@string/title_activity_view_graph"
-            android:theme="@style/Theme.CharacterDevelopmentTracker.NoActionBar" />
+            android:label="@string/title_activity_view_graph"/>
         <activity
             android:name=".AddCharacterActivity"
             android:exported="false"
-            android:label="@string/title_activity_add_character"
-            android:theme="@style/Theme.CharacterDevelopmentTracker.NoActionBar" />
+            android:label="@string/title_activity_add_character" />
         <activity
             android:name=".ViewEventActivity"
             android:exported="false"
-            android:label="@string/title_activity_view_event"
-            android:theme="@style/Theme.CharacterDevelopmentTracker.NoActionBar" />
+            android:label="@string/title_activity_view_event"/>
         <activity
             android:name=".AddEventActivity"
             android:exported="false"
-            android:label="@string/title_activity_add_event"
-            android:theme="@style/Theme.CharacterDevelopmentTracker.NoActionBar" />
+            android:label="@string/title_activity_add_event"/>
         <activity
             android:name=".ViewStoryActivity"
             android:exported="true"

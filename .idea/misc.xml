@@ -3,7 +3,10 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Kiera/StudioProjects/CharacterDevelopmentApp/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.13802083333333334" />
         <entry key="..\:/Users/Kiera/StudioProjects/CharacterDevelopmentApp/app/src/main/res/drawable/ic_baseline_delete_24.xml" value="0.14322916666666666" />
+        <entry key="..\:/Users/Kiera/StudioProjects/CharacterDevelopmentApp/app/src/main/res/drawable/stat1dot.xml" value="0.13802083333333334" />
+        <entry key="..\:/Users/Kiera/StudioProjects/CharacterDevelopmentApp/app/src/main/res/drawable/statdot2.xml" value="0.13802083333333334" />
         <entry key="..\:/Users/Kiera/StudioProjects/CharacterDevelopmentApp/app/src/main/res/layout/activity_add_character.xml" value="0.2" />
         <entry key="..\:/Users/Kiera/StudioProjects/CharacterDevelopmentApp/app/src/main/res/layout/activity_add_character2.xml" value="0.2" />
         <entry key="..\:/Users/Kiera/StudioProjects/CharacterDevelopmentApp/app/src/main/res/layout/activity_add_event.xml" value="0.2" />
@@ -13,13 +16,18 @@
         <entry key="..\:/Users/Kiera/StudioProjects/CharacterDevelopmentApp/app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="..\:/Users/Kiera/StudioProjects/CharacterDevelopmentApp/app/src/main/res/layout/activity_story_view.xml" value="0.2" />
         <entry key="..\:/Users/Kiera/StudioProjects/CharacterDevelopmentApp/app/src/main/res/layout/activity_view_character.xml" value="0.176" />
-        <entry key="..\:/Users/Kiera/StudioProjects/CharacterDevelopmentApp/app/src/main/res/layout/activity_view_graph.xml" value="0.12708333333333333" />
+        <entry key="..\:/Users/Kiera/StudioProjects/CharacterDevelopmentApp/app/src/main/res/layout/activity_view_event.xml" value="0.176" />
+        <entry key="..\:/Users/Kiera/StudioProjects/CharacterDevelopmentApp/app/src/main/res/layout/activity_view_graph.xml" value="0.264" />
         <entry key="..\:/Users/Kiera/StudioProjects/CharacterDevelopmentApp/app/src/main/res/layout/activity_view_story.xml" value="0.25" />
         <entry key="..\:/Users/Kiera/StudioProjects/CharacterDevelopmentApp/app/src/main/res/layout/character_row.xml" value="0.6" />
         <entry key="..\:/Users/Kiera/StudioProjects/CharacterDevelopmentApp/app/src/main/res/layout/content_add_character.xml" value="0.25" />
+        <entry key="..\:/Users/Kiera/StudioProjects/CharacterDevelopmentApp/app/src/main/res/layout/content_view_event.xml" value="0.25" />
         <entry key="..\:/Users/Kiera/StudioProjects/CharacterDevelopmentApp/app/src/main/res/layout/content_view_graph.xml" value="0.152" />
+        <entry key="..\:/Users/Kiera/StudioProjects/CharacterDevelopmentApp/app/src/main/res/layout/event_row.xml" value="0.264" />
         <entry key="..\:/Users/Kiera/StudioProjects/CharacterDevelopmentApp/app/src/main/res/layout/my_row.xml" value="0.25" />
+        <entry key="..\:/Users/Kiera/StudioProjects/CharacterDevelopmentApp/app/src/main/res/menu/back_arrow_menu.xml" value="0.25" />
         <entry key="..\:/Users/Kiera/StudioProjects/CharacterDevelopmentApp/app/src/main/res/menu/delete_menu.xml" value="0.264" />
+        <entry key="..\:/Users/Kiera/StudioProjects/CharacterDevelopmentApp/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.26614583333333336" />
         <entry key="..\:/Users/Owner/AndroidStudioProjects/CharacterDevelopmentTracker/app/src/main/res/layout/activity_add_story.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Owner/AndroidStudioProjects/CharacterDevelopmentTracker/app/src/main/res/layout/activity_main.xml" value="0.2803442028985507" />
         <entry key="..\:/Users/Owner/AndroidStudioProjects/CharacterDevelopmentTracker/app/src/main/res/layout/activity_story_view.xml" value="0.25" />

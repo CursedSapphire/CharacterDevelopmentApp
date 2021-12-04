@@ -1,13 +1,16 @@
 package com.example.characterdevelopmenttracker;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.characterdevelopmenttracker.databinding.ActivityAddCharacterBinding;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.text.TextUtils;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,8 +20,6 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 public class AddCharacterActivity extends AppCompatActivity {
-
-    private ActivityAddCharacterBinding binding;
 
     EditText name_input;
     EditText stat1_input;
@@ -57,62 +58,69 @@ public class AddCharacterActivity extends AppCompatActivity {
 
         getIntentData();
 
+        getSupportActionBar().setTitle("Add Character");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         add_character_button = findViewById(R.id.create_character_button);
-        System.out.println("=========================" + add_character_button);
 
-        add_character_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                System.out.println("DREAM DREAM DREAM DREAM DREAM DREAM DREAM");
+        add_character_button.setOnClickListener(v -> {
+            if(TextUtils.isEmpty(stat1_input.getText().toString()) ||
+                    TextUtils.isEmpty(stat2_input.getText().toString()) ||
+                    TextUtils.isEmpty(stat3_input.getText().toString()) ||
+                    TextUtils.isEmpty(stat4_input.getText().toString()) ||
+                    TextUtils.isEmpty(stat5_input.getText().toString()) ||
+                    TextUtils.isEmpty(stat1_val_input.getText().toString()) ||
+                    TextUtils.isEmpty(stat2_val_input.getText().toString()) ||
+                    TextUtils.isEmpty(stat3_val_input.getText().toString()) ||
+                    TextUtils.isEmpty(stat4_val_input.getText().toString()) ||
+                    TextUtils.isEmpty(stat5_val_input.getText().toString()) ||
+                    TextUtils.isEmpty(name_input.getText().toString()))
+            {
+                Toast.makeText(AddCharacterActivity.this, "Empty fields not allowed.",
+                Toast.LENGTH_SHORT).show();
+            }
+            else {
+                String characterName = name_input.getText().toString();
+
+                String stat1 = stat1_input.getText().toString();
+                String stat2 = stat2_input.getText().toString();
+                String stat3 = stat3_input.getText().toString();
+                String stat4 = stat4_input.getText().toString();
+                String stat5 = stat5_input.getText().toString();
 
 
-                if(TextUtils.isEmpty(stat1_input.getText().toString()) ||
-                        TextUtils.isEmpty(stat2_input.getText().toString()) ||
-                        TextUtils.isEmpty(stat3_input.getText().toString()) ||
-                        TextUtils.isEmpty(stat4_input.getText().toString()) ||
-                        TextUtils.isEmpty(stat5_input.getText().toString()) ||
-                        TextUtils.isEmpty(stat1_val_input.getText().toString()) ||
-                        TextUtils.isEmpty(stat2_val_input.getText().toString()) ||
-                        TextUtils.isEmpty(stat3_val_input.getText().toString()) ||
-                        TextUtils.isEmpty(stat4_val_input.getText().toString()) ||
-                        TextUtils.isEmpty(stat5_val_input.getText().toString()) ||
-                        TextUtils.isEmpty(name_input.getText().toString()))
-                {
-                    Toast.makeText(AddCharacterActivity.this, "Empty fields not allowed.",
-                    Toast.LENGTH_SHORT).show();
+                int stat1val = Integer.parseInt(stat1_val_input.getText().toString());
+                int stat2val = Integer.parseInt(stat2_val_input.getText().toString());
+                int stat3val = Integer.parseInt(stat3_val_input.getText().toString());
+                int stat4val = Integer.parseInt(stat4_val_input.getText().toString());
+                int stat5val = Integer.parseInt(stat5_val_input.getText().toString());
+
+                if (stat1.equals("") || stat2.equals("") || stat3.equals("") || stat4.equals("")
+                        || stat5.equals("") || characterName.equals("")) {
+                    Toast.makeText(context, "Blank names not allowed.",
+                            Toast.LENGTH_SHORT).show();
                 }
                 else {
-                    String characterName = name_input.getText().toString();
-
-                    String stat1 = stat1_input.getText().toString();
-                    String stat2 = stat2_input.getText().toString();
-                    String stat3 = stat3_input.getText().toString();
-                    String stat4 = stat4_input.getText().toString();
-                    String stat5 = stat5_input.getText().toString();
-
-
-                    int stat1val = Integer.parseInt(stat1_val_input.getText().toString());
-                    int stat2val = Integer.parseInt(stat2_val_input.getText().toString());
-                    int stat3val = Integer.parseInt(stat3_val_input.getText().toString());
-                    int stat4val = Integer.parseInt(stat4_val_input.getText().toString());
-                    int stat5val = Integer.parseInt(stat5_val_input.getText().toString());
-
-                    if (stat1.equals("") || stat2.equals("") || stat3.equals("") || stat4.equals("")
-                            || stat5.equals("") || characterName.equals("")) {
-                        Toast.makeText(context, "Blank names not allowed.",
-                                Toast.LENGTH_SHORT).show();
-                    }
-                    else {
-                        MyDatabaseHelper myDB = new MyDatabaseHelper(AddCharacterActivity.this);
-                        myDB.addCharacter(characterName, stat1, stat2, stat3, stat4, stat5, stat1val, stat2val,
-                                stat3val, stat4val, stat5val, storyId);
-                        Character character = myDB.getStoryCharacters(storyId).get(myDB.getStoryCharacters(storyId).size() - 1);
-                        System.out.println("DREAM DREAM DREAM DREAM DREAM DREAM DREAM" + character.toString());
-                    }
+                    MyDatabaseHelper myDB = new MyDatabaseHelper(AddCharacterActivity.this);
+                    myDB.addCharacter(characterName, stat1, stat2, stat3, stat4, stat5, stat1val, stat2val,
+                            stat3val, stat4val, stat5val, storyId);
+                    Intent intent = new Intent(AddCharacterActivity.this, ViewStoryActivity.class);
+                    intent.putExtra("id", Integer.parseInt(storyId));
+                    startActivity(intent);
                 }
             }
         });
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId() == android.R.id.home){
+            Intent intent = new Intent(AddCharacterActivity.this, ViewStoryActivity.class);
+            intent.putExtra("id", Integer.parseInt(storyId));
+            startActivity(intent);
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     public void getIntentData(){

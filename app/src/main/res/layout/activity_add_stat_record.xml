@@ -112,7 +112,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView52">
 
         <TextView
-            android:id="@+id/textView13"
+            android:id="@+id/stat1_rec_val"
             android:layout_width="match_parent"
             android:layout_height="70dp"
             android:gravity="center_vertical"
@@ -121,7 +121,7 @@
             android:textSize="20sp" />
 
         <TextView
-            android:id="@+id/textView16"
+            android:id="@+id/stat2_rec_val"
             android:layout_width="match_parent"
             android:layout_height="70dp"
             android:gravity="center_vertical"
@@ -130,7 +130,7 @@
             android:textSize="20sp" />
 
         <TextView
-            android:id="@+id/textView17"
+            android:id="@+id/stat3_rec_val"
             android:layout_width="match_parent"
             android:layout_height="70dp"
             android:gravity="center_vertical"
@@ -139,7 +139,7 @@
             android:textSize="20sp" />
 
         <TextView
-            android:id="@+id/textView18"
+            android:id="@+id/stat4_rec_val"
             android:layout_width="match_parent"
             android:layout_height="70dp"
             android:gravity="center_vertical"
@@ -148,7 +148,7 @@
             android:textSize="20sp" />
 
         <TextView
-            android:id="@+id/textView19"
+            android:id="@+id/stat5_rec_val"
             android:layout_width="match_parent"
             android:layout_height="70dp"
             android:gravity="center_vertical"
@@ -216,10 +216,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:text="Create Character"
+        android:text="Attach Event"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout2"/>
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
 
     <Spinner
         android:id="@+id/event_spinner"

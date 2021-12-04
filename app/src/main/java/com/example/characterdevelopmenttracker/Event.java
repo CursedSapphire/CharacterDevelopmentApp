@@ -19,6 +19,8 @@ public class Event {
         characterStatVals = new ArrayList<>();
     }
 
+    public Event(){}
+
     public int[] getCharacterStats(String CharacterName){
         int[] returnStats = new int[5];
         return returnStats;
@@ -31,4 +33,13 @@ public class Event {
     }
 
     public int getId(){return this.id;}
+
+    @Override
+    public boolean equals(Object anObject) {
+        if (!(anObject instanceof Event)) {
+            return false;
+        }
+        Event otherMember = (Event) anObject;
+        return otherMember.getId() == getId();
+    }
 }

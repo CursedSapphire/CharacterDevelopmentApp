@@ -15,9 +15,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.example.characterdevelopmenttracker.databinding.ActivityStoryViewBinding;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 
 public class ViewStoryActivity extends AppCompatActivity {
 
@@ -43,6 +43,10 @@ public class ViewStoryActivity extends AppCompatActivity {
 
         myDB = new MyDatabaseHelper(ViewStoryActivity.this);
         story = myDB.getStory(storyId);
+
+        getSupportActionBar().setTitle(story.getTitle() + " Details");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         ArrayList<Event> events = myDB.getStoryEvents(storyId);
         ArrayList<Character> characters = myDB.getStoryCharacters(storyId);
         System.out.println("Length of Events: " + events.size());
@@ -66,6 +70,7 @@ public class ViewStoryActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ViewStoryActivity.this, AddEventActivity.class);
+                intent.putExtra("id", Integer.parseInt(storyId));
                 startActivity(intent);
             }
         });
@@ -83,6 +88,7 @@ public class ViewStoryActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ViewStoryActivity.this, ViewEventActivity.class);
+                intent.putExtra("id", Integer.parseInt(storyId));
                 startActivity(intent);
             }
         });
@@ -118,6 +124,10 @@ public class ViewStoryActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getItemId() == R.id.delete_button){
             myDB.removeStory(Integer.parseInt(storyId));
+            Intent intent = new Intent(ViewStoryActivity.this, MainActivity.class);
+            startActivity(intent);
+        }
+        if(item.getItemId() == android.R.id.home){
             Intent intent = new Intent(ViewStoryActivity.this, MainActivity.class);
             startActivity(intent);
         }

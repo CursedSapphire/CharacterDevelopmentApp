@@ -84,7 +84,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
                         + KEY_STAT5 + " TEXT )";
 
         String eventQuery = "CREATE TABLE " + TABLE_EVENTS + " (" + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT , " +
-                KEY_NAME + " TEXT, " + KEY_STORY_ID + " INTEGER, " +
+                KEY_NAME + " TEXT, " + KEY_EVENT_ID + " INTEGER, " +
                 KEY_EVENT_POSITION + " INTEGER )";
 
         String linkedEventQuery = "CREATE TABLE " + TABLE_LINKED_EVENTS + " (" + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT , " +
@@ -120,21 +120,52 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         long result = db.insert(TABLE_STORIES, null, cv);
         if(result == -1)
         {
-            Toast.makeText(context, "Failed to add story.", Toast.LENGTH_SHORT);
+            Toast.makeText(context, "Failed to add story.", Toast.LENGTH_SHORT).show();
         }
         addEvent("Beginning", (int) result);
     }
 
     public void removeStory(int id){
         SQLiteDatabase db = this.getWritableDatabase();
+        Story story = getStory(Integer.toString(id));
+        ArrayList<Event> events = getStoryEvents(Integer.toString(id));
+        ArrayList<Character> characters = getStoryCharacters(Integer.toString(id));
+
         db.delete(TABLE_STORIES, KEY_ID + " = ?",
                 new String[] { String.valueOf(id) });
+
+        db.delete(TABLE_EVENTS, KEY_STORY_ID + " = ?",
+                new String[] { String.valueOf(id) });
+
+        db.delete(TABLE_CHARACTERS, KEY_STORY_ID + " = ?",
+                new String[] { String.valueOf(id) });
+
     }
 
     public void removeCharacter(int id){
         SQLiteDatabase db = this.getWritableDatabase();
+
         db.delete(TABLE_CHARACTERS, KEY_ID + " = ?",
                 new String[] { String.valueOf(id)});
+        removeStatRecordChar(id);
+    }
+
+    public void removeEvent(int id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_EVENTS, KEY_ID + " = ?", new String[] {String.valueOf(id)});
+        removeStatRecordEvent(id);
+    }
+
+    public void removeStatRecordChar(int characterID){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_LINKED_EVENTS, KEY_CHAR_ID + " = ?",
+                new String[] {String.valueOf(characterID)});
+    }
+
+    public void removeStatRecordEvent(int eventID){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_LINKED_EVENTS, KEY_EVENT_ID + " = ?",
+                new String[] {String.valueOf(eventID)});
     }
 
     public Cursor readStoryData(){
@@ -286,7 +317,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
             character = new Character(character_name, story_id, character_id);
             character.setStats(stat1, stat2, stat3, stat4, stat5);
         }
-
+        c.close();
         return character;
     }
 
@@ -305,7 +336,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         long result = db.insert(TABLE_LINKED_EVENTS, null, cv);
         if(result == -1)
         {
-            Toast.makeText(context, "Failed to add story.", Toast.LENGTH_SHORT);
+            Toast.makeText(context, "Failed to add story.", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -313,32 +344,57 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         ContentValues cv = new ContentValues();
         int posn = 0;
-        if(getStoryEvents(Integer.toString(storyID)).isEmpty())
-            posn = getMostRecentStoryEvent(Integer.toString(storyID)).getPosition();
-        if(posn == 0)
+        if(! getStoryEvents(Integer.toString(storyID)).isEmpty()) {
+            posn = getMostRecentStoryEvent(Integer.toString(storyID)).getPosition() + 1;
+            System.out.println("YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY" + posn);
+            System.out.println(name);
+        }
+        else{
             name = "Beginning";
+        }
         cv.put(KEY_EVENT_POSITION, posn);
         cv.put(KEY_NAME, name);
         cv.put(KEY_STORY_ID, storyID);
 
         long result = db.insert(TABLE_EVENTS, null, cv);
         if(result == -1){
-            Toast.makeText(context, "Failed to add character", Toast.LENGTH_SHORT);
+            Toast.makeText(context, "Failed to add character", Toast.LENGTH_SHORT).show();
         }
 
+    }
+
+    public Event getEvent(String eventID){
+        Event event = new Event();
+        SQLiteDatabase myDB = this.getReadableDatabase();
+        String selectQuery = "SELECT * FROM " + TABLE_EVENTS + " WHERE "
+                + KEY_ID + " = " + eventID;
+        Cursor c = myDB.rawQuery(selectQuery, null);
+
+        if (c != null && c.moveToFirst()) {
+            c.moveToFirst();
+            int event_id = c.getInt(c.getColumnIndexOrThrow(KEY_ID));
+            String event_name = c.getString(c.getColumnIndexOrThrow(KEY_NAME));
+            int story_id = c.getInt((c.getColumnIndexOrThrow(KEY_STORY_ID)));
+            int event_posn = c.getInt(c.getColumnIndexOrThrow(KEY_EVENT_POSITION));
+            event = new Event(event_name, event_id, story_id, event_posn);
+        }
+        c.close();
+        return event;
     }
 
     public Event getMostRecentStoryEvent(String storyID){
         ArrayList<Event> events = getStoryEvents(storyID);
-        Event mostRecentEvent = events.get(0);
-        for(int i = 1; i < events.size(); i++)
-        {
-            if(events.get(i).getPosition() < mostRecentEvent.getPosition())
-                mostRecentEvent = events.get(i);
+        Event mostRecentEvent = new Event();
+
+        if(! events.isEmpty()) {
+            mostRecentEvent = events.get(0);
+            for (int i = 1; i < events.size(); i++) {
+                if (events.get(i).getPosition() > mostRecentEvent.getPosition())
+                    mostRecentEvent = events.get(i);
+            }
         }
         return mostRecentEvent;
     }
-
 
     public ArrayList<StatRecord> getCharacterStatRecords(String charId){
         ArrayList<StatRecord> records = new ArrayList<>();
@@ -352,7 +408,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
 
         if(c.moveToFirst()){
             do{
-                event_id = c.getInt(c.getColumnIndexOrThrow(KEY_ID));
+                event_id = c.getInt(c.getColumnIndexOrThrow(KEY_STORY_ID));
                 stats[0] = c.getInt(c.getColumnIndexOrThrow(KEY_STAT1_VAL));
                 stats[1] = c.getInt(c.getColumnIndexOrThrow(KEY_STAT2_VAL));
                 stats[2] = c.getInt(c.getColumnIndexOrThrow(KEY_STAT3_VAL));
@@ -367,6 +423,60 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         }
 
         return records;
+    }
+
+    public ArrayList<Event> getCharacterEvents(String charID){
+        ArrayList<Event> events = new ArrayList<>();
+        ArrayList<StatRecord> records = getCharacterStatRecords(charID);
+        for(int i = 0; i < records.size(); i++){
+            int eventid = records.get(i).getEventID();
+            events.add(getEvent(Integer.toString(eventid)));
+        }
+        return events;
+    }
+
+    public void deleteAll(){
+        SQLiteDatabase db = this.getReadableDatabase();
+        db.delete(TABLE_CHARACTERS, null, null);
+        db.delete(TABLE_STORIES, null, null);
+        db.delete(TABLE_EVENTS, null, null);
+        db.delete(TABLE_LINKED_EVENTS, null, null);
+    }
+
+    public Event getMostRecentCharacterEvent(String charID) {
+        ArrayList<StatRecord> records = getCharacterStatRecords(charID);
+
+        System.out.println("---------------Inside getMostRecentCharacterEvent: " +
+                records.size() + " " + records.get(0).toString());
+        int mostRecentEventID = 0;
+        for(int i = 0; i < records.size(); i++){
+            if(records.get(i).getEventID() > mostRecentEventID)
+                mostRecentEventID = records.get(i).getEventID();
+        }
+        Event event = getEvent(Integer.toString(mostRecentEventID));
+        return event;
+    }
+
+    public StatRecord getStatRecord(String charID, String eventID)
+    {
+        StatRecord record = new StatRecord();
+        SQLiteDatabase myDB = this.getReadableDatabase();
+        String selectQuery = "SELECT * FROM " + TABLE_LINKED_EVENTS + " WHERE "
+                + KEY_STORY_ID + " = " + eventID + " AND " + KEY_CHAR_ID + " = " + charID;
+        Cursor c = myDB.rawQuery(selectQuery, null);
+
+        if (c != null && c.moveToFirst()) {
+            c.moveToFirst();
+            int char_id = Integer.parseInt(charID);
+            int event_id = Integer.parseInt(eventID);
+            int stat1 = c.getInt(c.getColumnIndexOrThrow(KEY_STAT1_VAL));
+            int stat2 = c.getInt(c.getColumnIndexOrThrow(KEY_STAT2_VAL));
+            int stat3 = c.getInt(c.getColumnIndexOrThrow(KEY_STAT3_VAL));
+            int stat4 = c.getInt(c.getColumnIndexOrThrow(KEY_STAT4_VAL));
+            int stat5 = c.getInt(c.getColumnIndexOrThrow(KEY_STAT5_VAL));
+            record = new StatRecord(char_id, event_id, stat1, stat2, stat3, stat4, stat5);
+        }
+        return record;
     }
 
 }

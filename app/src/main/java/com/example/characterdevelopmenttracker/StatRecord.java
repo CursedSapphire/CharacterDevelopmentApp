@@ -1,6 +1,8 @@
 package com.example.characterdevelopmenttracker;
 
-public class StatRecord {
+import androidx.annotation.NonNull;
+
+public class StatRecord implements Comparable<StatRecord>{
 
     private int characterID;
     private int eventID;
@@ -18,15 +20,33 @@ public class StatRecord {
         statvals[4] = stat5val;
     }
 
+    public StatRecord(){}
+
+    @NonNull
+    @Override
+    public String toString() {
+        String returnString = "CharacterID: " + characterID + " EventID: " + eventID + " 1st stat: ";
+        returnString = returnString + statvals[0];
+        return  returnString;
+    }
+
     public int getEventID() {
         return eventID;
     }
 
-    public int[] getStatvals() {
+    public Integer getEventIDInteger(){return eventID;}
+
+    public int[] getStatVals() {
         return statvals;
     }
 
     public int getCharacterID() {
         return characterID;
+    }
+
+    @Override
+    public int compareTo(StatRecord record) {
+        Integer thisEventId = this.eventID;
+        return thisEventId.compareTo(record.getEventID());
     }
 }

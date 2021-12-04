@@ -35,6 +35,8 @@ public class Character {
 
     public int getStoryId(){return this.storyId;}
 
+    public String[] getStats(){return stats;}
+
     @NonNull
     @Override
     public String toString() {

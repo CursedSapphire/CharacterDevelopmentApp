@@ -31,7 +31,6 @@ public class CustomAdaptorCharacters extends RecyclerView.Adapter<CustomAdaptorC
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.character_row, parent, false);
-
         return new MyViewHolder(view);
     }
 

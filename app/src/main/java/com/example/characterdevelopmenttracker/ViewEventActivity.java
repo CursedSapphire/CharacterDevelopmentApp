@@ -1,51 +1,76 @@
 package com.example.characterdevelopmenttracker;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 
 import com.google.android.material.snackbar.Snackbar;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.View;
-
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
-
-import com.example.characterdevelopmenttracker.databinding.ActivityViewEventBinding;
+import java.util.ArrayList;
 
 public class ViewEventActivity extends AppCompatActivity {
 
-    private AppBarConfiguration appBarConfiguration;
-    private ActivityViewEventBinding binding;
+    MyDatabaseHelper myDB;
+    ArrayList<Event> events;
+    Story story;
+    String storyID;
+    RecyclerView recyclerView;
+    CustomAdaptorEvents customAdaptor;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_view_event);
 
-        binding = ActivityViewEventBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
+        recyclerView = findViewById(R.id.event_recycler);
 
-        setSupportActionBar(binding.toolbar);
+        getIntentData();
+        myDB = new MyDatabaseHelper(ViewEventActivity.this);
+        story = myDB.getStory(storyID);
 
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_view_event);
-        appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
-        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
+        getSupportActionBar().setTitle(story.getTitle() + " Events");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        binding.fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+        events = myDB.getStoryEvents(storyID);
+        customAdaptor = new CustomAdaptorEvents(ViewEventActivity.this, events,
+                ViewEventActivity.this);
+        System.out.println("00000000000000000000000000000000000000000000" + events);
+        recyclerView.setAdapter(customAdaptor);
+        System.out.println(recyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(ViewEventActivity.this));
     }
 
     @Override
-    public boolean onSupportNavigateUp() {
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_view_event);
-        return NavigationUI.navigateUp(navController, appBarConfiguration)
-                || super.onSupportNavigateUp();
+    public boolean onCreateOptionsMenu(Menu menu){
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.back_arrow_menu, menu);
+        return super.onCreateOptionsMenu(menu);
     }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId() == android.R.id.home){
+            Intent intent = new Intent(ViewEventActivity.this, ViewStoryActivity.class);
+            intent.putExtra("id", Integer.parseInt(storyID));
+            startActivity(intent);
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    public void getIntentData(){
+        if(getIntent().hasExtra("id")){
+            int id = getIntent().getIntExtra("id", 0);
+            storyID = Integer.toString(id);
+        }
+    }
+
+
 }
