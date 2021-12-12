@@ -8,14 +8,12 @@ public class Character {
     private int storyId;
     private String name;
     private int id;
-    private ArrayList<Event> events;
     private String[] stats;
 
     public Character(String name, int storyId, int id){
         this.storyId = storyId;
         this.name = name;
         this.id = id;
-        this.events = new ArrayList<>();
         this.stats = new String[5];
     }
 

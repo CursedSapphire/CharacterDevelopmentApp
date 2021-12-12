@@ -62,10 +62,6 @@ public class ViewGraphActivity extends AppCompatActivity {
 
         Collections.sort(records, new CustomComparator());
 
-        for(int i = 0; i < records.size(); i++){
-            System.out.println("Record " + i + " " + records.get(i).toString());
-        }
-
         stat1view = findViewById(R.id.stat1_label);
         stat2view = findViewById(R.id.stat2_label);
         stat3view = findViewById(R.id.stat3_label);
@@ -111,11 +107,11 @@ public class ViewGraphActivity extends AppCompatActivity {
             y4 = stat4data.get(x);
             y5 = stat5data.get(x);
 
-            lseries1.appendData(new DataPoint(x, y1), true, records.size() + 10);
-            lseries2.appendData(new DataPoint(x, y2), true, records.size() + 10);
-            lseries3.appendData(new DataPoint(x, y3), true, records.size() + 10);
-            lseries4.appendData(new DataPoint(x, y4), true, records.size() + 10);
-            lseries5.appendData(new DataPoint(x, y5), true, records.size() + 10);
+            lseries1.appendData(new DataPoint(x, y1), true, records.size() + 1);
+            lseries2.appendData(new DataPoint(x, y2), true, records.size() + 1);
+            lseries3.appendData(new DataPoint(x, y3), true, records.size() + 1);
+            lseries4.appendData(new DataPoint(x, y4), true, records.size() + 1);
+            lseries5.appendData(new DataPoint(x, y5), true, records.size() + 1);
         }
 
         lseries1.setColor(Color.rgb(214,98,98));

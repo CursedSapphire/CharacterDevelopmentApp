@@ -14,6 +14,8 @@
         android:layout_marginStart="36dp"
         android:layout_marginTop="140dp"
         android:text="New Character"
+        android:textSize="14sp"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -24,6 +26,8 @@
         android:layout_marginTop="140dp"
         android:layout_marginEnd="32dp"
         android:text="New Event"
+        android:textSize="16sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -34,7 +38,7 @@
         android:layout_marginStart="36dp"
         android:layout_marginTop="56dp"
         android:text="Title"
-        android:textSize="24dp"
+        android:textSize="28dp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -58,6 +62,8 @@
         android:layout_marginStart="36dp"
         android:layout_marginTop="24dp"
         android:text="View_Events"
+        android:textSize="16sp"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/add_character_button" />
 
