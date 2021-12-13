@@ -63,12 +63,8 @@ public class AddStatRecord extends AppCompatActivity {
         unusedEvents = new ArrayList<>();
         ArrayList<Event> usedEvents = myDB.getCharacterEvents(characterID);
 
-        System.out.println("###########################   all Events:" + events);
-        System.out.println("###########################   used Events:" + usedEvents);
         System.out.println(events.removeAll(usedEvents));
-        System.out.println("###########################   Unused Events:" + events);
         unusedEvents = events;
-        System.out.println("###########################   Unused Events:" + events);
 
         ArrayList<String> unusedEventNames = new ArrayList<>();
         for(int i = 0; i < unusedEvents.size(); i++)

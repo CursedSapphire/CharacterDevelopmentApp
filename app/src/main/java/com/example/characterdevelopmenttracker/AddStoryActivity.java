@@ -4,9 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class AddStoryActivity extends AppCompatActivity {
 
@@ -22,10 +24,17 @@ public class AddStoryActivity extends AppCompatActivity {
         add_story_button = findViewById(R.id.save_story_button);
 
         add_story_button.setOnClickListener(view -> {
-            MyDatabaseHelper myDB = new MyDatabaseHelper(AddStoryActivity.this);
-            myDB.addStory(title_input.getText().toString());
-            Intent intent = new Intent(AddStoryActivity.this, MainActivity.class);
-            startActivity(intent);
+            if(TextUtils.isEmpty(title_input.getText().toString()))
+            {
+                Toast.makeText(AddStoryActivity.this, "Empty fields not allowed.",
+                        Toast.LENGTH_SHORT).show();
+            }
+            else {
+                MyDatabaseHelper myDB = new MyDatabaseHelper(AddStoryActivity.this);
+                myDB.addStory(title_input.getText().toString());
+                Intent intent = new Intent(AddStoryActivity.this, MainActivity.class);
+                startActivity(intent);
+            }
         });
     }
 }

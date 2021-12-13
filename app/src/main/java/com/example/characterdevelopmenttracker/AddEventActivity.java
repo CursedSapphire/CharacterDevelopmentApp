@@ -8,11 +8,13 @@ import com.google.android.material.snackbar.Snackbar;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -46,11 +48,18 @@ public class AddEventActivity extends AppCompatActivity {
         addEventButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String eventName = event_name_input.getText().toString();
-                myDB.addEvent(eventName, Integer.parseInt(storyID));
-                Intent intent = new Intent(AddEventActivity.this, ViewStoryActivity.class);
-                intent.putExtra("id", Integer.parseInt(storyID));
-                startActivity(intent);
+                if(TextUtils.isEmpty(event_name_input.getText().toString()))
+                {
+                    Toast.makeText(AddEventActivity.this, "Empty fields not allowed.",
+                            Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    String eventName = event_name_input.getText().toString();
+                    myDB.addEvent(eventName, Integer.parseInt(storyID));
+                    Intent intent = new Intent(AddEventActivity.this, ViewStoryActivity.class);
+                    intent.putExtra("id", Integer.parseInt(storyID));
+                    startActivity(intent);
+                }
             }
         });
     }

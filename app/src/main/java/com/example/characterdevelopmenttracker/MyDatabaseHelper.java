@@ -346,7 +346,6 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         int posn = 0;
         if(! getStoryEvents(Integer.toString(storyID)).isEmpty()) {
             posn = getMostRecentStoryEvent(Integer.toString(storyID)).getPosition() + 1;
-            System.out.println("YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY" + posn);
             System.out.println(name);
         }
         else{
@@ -446,8 +445,6 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     public Event getMostRecentCharacterEvent(String charID) {
         ArrayList<StatRecord> records = getCharacterStatRecords(charID);
 
-        System.out.println("---------------Inside getMostRecentCharacterEvent: " +
-                records.size() + " " + records.get(0).toString());
         int mostRecentEventID = 0;
         for(int i = 0; i < records.size(); i++){
             if(records.get(i).getEventID() > mostRecentEventID)
